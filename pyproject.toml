@@ -1,5 +1,5 @@
 [project]
-name = "farm"
+name = "farm-memory"
 version = "0.1.0"
 description = "Filesystem As Remote Memory - Agent memory storage system"
 readme = "README.md"
