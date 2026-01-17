@@ -3,7 +3,7 @@ name = "farm-memory"
 version = "0.1.0"
 description = "Filesystem As Remote Memory - Agent memory storage system"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.32.0",
@@ -35,7 +35,7 @@ packages = ["src/farm"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
