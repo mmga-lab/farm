@@ -21,25 +21,32 @@ AI Agent（如 Claude）的对话是无状态的，每次新会话都会"失忆"
               v
          .farm/
          ├── memories/    # JSON 文件存储
-         └── chroma/      # 向量索引
+         └── duckdb/      # DuckDB 向量索引
 ```
 
 1. Agent 将重要信息存入 FARM（带标签和元数据）
-2. FARM 自动建立向量索引
+2. FARM 使用 `bge-small-zh` 模型生成向量，存入 DuckDB
 3. Agent 用自然语言搜索，FARM 返回语义相关的记忆
+
+### 搜索模式
+
+| 模式 | 说明 | 适用场景 |
+|------|------|----------|
+| `semantic` | 向量语义搜索 | 自然语言查询，如"用户喜欢什么" |
+| `text` | 关键词匹配 | 精确查找，如"Vue" |
+| `hybrid` | 混合搜索 | 结合语义和关键词 |
 
 ## 安装
 
 ```bash
-# 克隆项目
-git clone <repo-url>
-cd farm
+# 从 PyPI 安装
+pip install farm-memory
 
-# 安装依赖（需要 uv）
-uv sync
+# 或使用 uv
+uv add farm-memory
 
 # 初始化存储
-uv run farm init
+farm init
 ```
 
 ## 基本使用
@@ -48,36 +55,39 @@ uv run farm init
 
 ```bash
 # 简单添加
-uv run farm add "用户是后端开发者，主要使用 Python"
+farm add "用户是后端开发者，主要使用 Python"
 
 # 带标签
-uv run farm add "项目使用 FastAPI + PostgreSQL" --tag project --tag tech
+farm add "项目使用 FastAPI + PostgreSQL" --tag project --tag tech
 ```
 
 ### 查看记忆
 
 ```bash
 # 列出所有
-uv run farm list
+farm list
 
 # 按标签过滤
-uv run farm list --tag project
+farm list --tag project
 ```
 
 ### 搜索记忆
 
 ```bash
-# 关键词搜索
-uv run farm search "Python"
+# 语义搜索（默认）
+farm search "用户擅长什么技术"
 
-# 语义搜索（推荐）
-uv run farm search "用户擅长什么技术" --semantic
+# 全文搜索
+farm search "Python" --mode text
+
+# 混合搜索
+farm search "后端开发" --mode hybrid --vector-weight 0.7
 ```
 
 ### 删除记忆
 
 ```bash
-uv run farm delete <memory-id>
+farm delete <memory-id>
 ```
 
 ## 下一步

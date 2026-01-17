@@ -12,8 +12,8 @@ FARM 提供 MCP (Model Context Protocol) 服务，让 Claude 直接调用记忆�
 {
   "mcpServers": {
     "farm": {
-      "command": "uv",
-      "args": ["run", "--directory", "/absolute/path/to/farm", "farm", "mcp"]
+      "command": "uvx",
+      "args": ["farm-memory", "mcp"]
     }
   }
 }
@@ -27,8 +27,8 @@ FARM 提供 MCP (Model Context Protocol) 服务，让 Claude 直接调用记忆�
 {
   "mcpServers": {
     "farm": {
-      "command": "uv",
-      "args": ["run", "--directory", "/absolute/path/to/farm", "farm", "mcp"]
+      "command": "uvx",
+      "args": ["farm-memory", "mcp"]
     }
   }
 }
@@ -47,7 +47,16 @@ FARM 提供 MCP (Model Context Protocol) 服务，让 Claude 直接调用记忆�
 | `memory_update` | 更新记忆内容 |
 | `memory_delete` | 删除记忆 |
 | `memory_list` | 列出所有记忆 |
-| `memory_search` | 语义搜索记忆 |
+| `memory_search` | 搜索记忆 |
+
+#### memory_search 参数
+
+| 参数 | 类型 | 说明 | 默认值 |
+|------|------|------|--------|
+| `query` | string | 搜索词（必填） | - |
+| `limit` | int | 返回数量 | `10` |
+| `mode` | string | 搜索模式：`semantic`, `text`, `hybrid` | `semantic` |
+| `vector_weight` | float | 混合搜索时向量权重 (0-1) | `0.5` |
 
 ### 文件操作
 
@@ -79,7 +88,7 @@ Claude: [调用 memory_search，查询 "前端框架 偏好"]
 
 ```bash
 # 启动 MCP 服务
-uv run farm mcp
+farm mcp
 
 # 服务通过 stdio 通信，启动后等待 JSON-RPC 输入
 ```

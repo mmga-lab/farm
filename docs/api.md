@@ -2,7 +2,7 @@
 
 启动服务：
 ```bash
-uv run farm serve --host 0.0.0.0 --port 8000
+farm serve --host 0.0.0.0 --port 8000
 ```
 
 基础 URL: `http://localhost:8000`
@@ -87,9 +87,18 @@ Content-Type: application/json
 
 {
   "query": "搜索词",
-  "limit": 10
+  "limit": 10,
+  "mode": "semantic",
+  "vector_weight": 0.5
 }
 ```
+
+| 参数 | 类型 | 说明 | 默认值 |
+|------|------|------|--------|
+| `query` | string | 搜索词（必填） | - |
+| `limit` | int | 返回数量 | `10` |
+| `mode` | string | 搜索模式：`semantic`, `text`, `hybrid` | `semantic` |
+| `vector_weight` | float | 混合搜索时向量权重 (0-1) | `0.5` |
 
 响应：
 ```json
@@ -149,7 +158,8 @@ Content-Type: application/json
 
 {
   "query": "搜索词",
-  "limit": 10
+  "limit": 10,
+  "mode": "semantic"
 }
 ```
 

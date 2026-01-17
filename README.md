@@ -5,26 +5,36 @@
 ## 核心功能
 
 - **记忆存储**: 保存对话摘要、用户偏好、学习到的知识
-- **语义搜索**: 基于 ChromaDB 向量搜索，用自然语言查询相关记忆
+- **多模式搜索**: 支持语义搜索、全文搜索、混合搜索
 - **多接口**: MCP Server (Claude)、REST API、CLI
+
+## 技术栈
+
+- **向量搜索**: DuckDB + VSS 扩展 (HNSW 索引)
+- **Embedding**: `BAAI/bge-small-zh-v1.5` (中文优化)
+- **全文搜索**: 关键词匹配
 
 ## 快速开始
 
 ```bash
 # 安装
-uv sync
+pip install farm-memory
+# 或
+uv add farm-memory
 
 # 初始化存储
-uv run farm init
+farm init
 
 # 添加记忆
-uv run farm add "用户偏好 Vue 框架" --tag preference
+farm add "用户偏好 Vue 框架" --tag preference
 
 # 搜索记忆
-uv run farm search "前端框架" --semantic
+farm search "前端框架" --mode semantic
+farm search "Vue" --mode text
+farm search "前端" --mode hybrid
 
 # 启动 API 服务
-uv run farm serve
+farm serve
 ```
 
 ## Claude 集成
@@ -35,8 +45,8 @@ uv run farm serve
 {
   "mcpServers": {
     "farm": {
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/farm", "farm", "mcp"]
+      "command": "uvx",
+      "args": ["farm-memory", "mcp"]
     }
   }
 }

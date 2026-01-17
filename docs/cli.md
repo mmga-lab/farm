@@ -5,7 +5,7 @@ FARM 提供 `farm` 命令行工具管理记忆。
 ## 初始化
 
 ```bash
-uv run farm init [--path PATH]
+farm init [--path PATH]
 ```
 
 在当前目录创建 `.farm/` 存储目录。
@@ -17,7 +17,7 @@ uv run farm init [--path PATH]
 ## 添加记忆
 
 ```bash
-uv run farm add <content> [OPTIONS]
+farm add <content> [OPTIONS]
 ```
 
 | 参数 | 说明 |
@@ -27,13 +27,13 @@ uv run farm add <content> [OPTIONS]
 
 示例：
 ```bash
-uv run farm add "用户偏好暗色主题" --tag preference --tag ui
+farm add "用户偏好暗色主题" --tag preference --tag ui
 ```
 
 ## 列出记忆
 
 ```bash
-uv run farm list [OPTIONS]
+farm list [OPTIONS]
 ```
 
 | 参数 | 说明 |
@@ -42,41 +42,45 @@ uv run farm list [OPTIONS]
 
 示例：
 ```bash
-uv run farm list
-uv run farm list --tag project
+farm list
+farm list --tag project
 ```
 
 ## 获取记忆
 
 ```bash
-uv run farm get <memory_id>
+farm get <memory_id>
 ```
 
 ## 搜索记忆
 
 ```bash
-uv run farm search <query> [OPTIONS]
+farm search <query> [OPTIONS]
 ```
 
 | 参数 | 说明 | 默认值 |
 |------|------|--------|
 | `query` | 搜索词（必填） | - |
-| `--semantic, -s` | 启用语义搜索 | false |
-| `-n, --limit` | 返回数量 | 10 |
+| `--mode, -m` | 搜索模式：semantic, text, hybrid | `semantic` |
+| `--vector-weight, -w` | 混合搜索时向量权重 (0-1) | `0.5` |
+| `-n, --limit` | 返回数量 | `10` |
 
 示例：
 ```bash
-# 关键词搜索
-uv run farm search "Python"
+# 语义搜索（默认）
+farm search "用户的技术栈是什么"
 
-# 语义搜索
-uv run farm search "用户的技术栈是什么" --semantic -n 5
+# 全文搜索
+farm search "Python" --mode text
+
+# 混合搜索，向量权重 0.7
+farm search "后端开发" --mode hybrid -w 0.7 -n 5
 ```
 
 ## 删除记忆
 
 ```bash
-uv run farm delete <memory_id> [--force]
+farm delete <memory_id> [--force]
 ```
 
 | 参数 | 说明 |
@@ -88,7 +92,7 @@ uv run farm delete <memory_id> [--force]
 ### REST API 服务
 
 ```bash
-uv run farm serve [OPTIONS]
+farm serve [OPTIONS]
 ```
 
 | 参数 | 说明 | 默认值 |
@@ -99,7 +103,7 @@ uv run farm serve [OPTIONS]
 ### MCP 服务
 
 ```bash
-uv run farm mcp
+farm mcp
 ```
 
 启动 MCP 服务器，通过 stdio 与 Claude 通信。
